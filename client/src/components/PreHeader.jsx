@@ -15,7 +15,6 @@ const PreHeader = ({ hideButtons }) => {
 
     useEffect(() => {
         const item = localStorage.getItem('userEmail');
-
         if (item) {
             navigate('/home')
         }

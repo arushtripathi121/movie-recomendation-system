@@ -14,7 +14,10 @@ const getRatingColor = (rating) => {
 const MovieDetailsModal = ({ movie, onClose }) => {
   if (!movie) return null;
 
-  const { title, release_date, overview, vote_average, poster_path } = movie;
+  const isMovie = movie.media_type === 'movie';
+  const title = isMovie ? movie.title : movie.name || movie.original_name;
+  const releaseDate = isMovie ? movie.release_date : movie.first_air_date;
+  const { overview, vote_average, poster_path } = movie;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-30">
@@ -32,7 +35,7 @@ const MovieDetailsModal = ({ movie, onClose }) => {
         <div className="flex flex-col justify-center p-6 w-1/2">
           <h3 className="text-3xl font-bold text-white mb-2">{title}</h3>
           <p className="text-gray-400 text-lg mb-2">
-            Release Date: {new Date(release_date).toLocaleDateString()}
+            Release Date: {new Date(releaseDate).toLocaleDateString()}
           </p>
           <p className="text-gray-300 text-lg mb-2">{overview}</p>
           <p className={`font-bold text-2xl ${getRatingColor(vote_average)}`}>
@@ -55,15 +58,13 @@ const MovieCard = ({ movie, onClick }) => {
       <img
         className={`w-full h-[400px] object-cover transition-transform duration-300 rounded-lg`}
         src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-        alt={movie.title}
+        alt={movie.title || movie.name || movie.original_name}
       />
     </div>
   );
 };
 
 const SlidingComponent = ({ movies }) => {
-  console.log(movies);
-  
   const [selectedMovie, setSelectedMovie] = useState(null);
 
   const handleCardClick = (movie) => {
@@ -73,6 +74,9 @@ const SlidingComponent = ({ movies }) => {
   const handleCloseModal = () => {
     setSelectedMovie(null);
   };
+
+  // Filter movies to only include those with a poster
+  const filteredMovies = movies.filter(movie => movie.poster_path);
 
   return (
     <>
@@ -93,7 +97,7 @@ const SlidingComponent = ({ movies }) => {
         }}
         style={{ display: 'flex', justifyContent: 'flex-end' }}
       >
-        {movies.map((movie) => (
+        {filteredMovies.map((movie) => (
           <SwiperSlide key={movie.id} style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <MovieCard
               movie={movie}
