@@ -1,89 +1,77 @@
 const User = require("../models/user");
 
-const signIn = async (req, res) => {
+exports.signIn = async (req, res) => {
     try {
         const { email, password } = req.body;
 
         if (!email || !password) {
-            return res.status(404).json({
+            return res.status(400).json({
                 success: false,
-                errorMessage: 'Try again'
-            })
+                errorMessage: 'Email and password are required.'
+            });
         }
 
-        const user = await User.find({ email });
+        const user = await User.findOne({ email });
 
         if (!user) {
             return res.status(404).json({
                 success: false,
-                errorMessage: 'User not found'
-            })
+                errorMessage: 'User not found.'
+            });
         }
 
         const userData = {
             email: user.email,
-        }
+        };
 
         return res.status(200).json({
             success: true,
-            message: 'User logged in',
+            message: 'User logged in.',
             data: userData
-        })
-    }
-    catch (e) {
-        return res.status(404).json({
+        });
+    } catch (e) {
+        return res.status(500).json({
             success: false,
-            errorMessage: 'internal server error'
-        })
+            errorMessage: 'Internal server error.'
+        });
     }
-}
+};
 
-
-const signUp = async (req, res) => {
+exports.signUp = async (req, res) => {
     try {
         const { email, password } = req.body;
 
         if (!email || !password) {
-            return res.status(404).json({
+            return res.status(400).json({
                 success: false,
-                errorMessage: 'Try again'
-            })
+                errorMessage: 'Email and password are required.'
+            });
         }
 
-        let user = await User.find({ email });
-
-        let userData;
+        let user = await User.findOne({ email });
 
         if (user) {
-
-            userData = {
-                email: user.email
-            }
-
-            return res.status(200).json({
-                success: true,
-                message: 'User logged in',
-                data: userData
-            })
+            return res.status(409).json({
+                success: false,
+                message: 'User already exists.'
+            });
         }
 
+        user = await User.create({ email, password });
 
-        user = await User.create({email, password});
-
-        userData = {
+        const userData = {
             email: user.email,
-        }
+        };
 
-        return res.status(200).json({
+        return res.status(201).json({
             success: true,
-            message: 'User logged in',
+            message: 'User signed up successfully.',
             data: userData
-        })
-    }
-    catch (e) {
-        return res.status(404).json({
+        });
+    } catch (e) {
+        return res.status(500).json({
             success: false,
-            errorMessage: 'internal server error'
-        })
+            errorMessage: 'Internal server error.'
+        });
     }
-}
+};
