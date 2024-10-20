@@ -14,9 +14,8 @@ const getRatingColor = (rating) => {
 const MovieDetailsModal = ({ movie, onClose }) => {
   if (!movie) return null;
 
-  const isMovie = movie.media_type === 'movie';
-  const title = isMovie ? movie.title : movie.name || movie.original_name;
-  const releaseDate = isMovie ? movie.release_date : movie.first_air_date;
+  const title = movie.title || movie.name || movie.original_name;
+  const releaseDate = movie.release_date || movie.first_air_date;
   const { overview, vote_average, poster_path } = movie;
 
   return (
@@ -34,9 +33,17 @@ const MovieDetailsModal = ({ movie, onClose }) => {
         </div>
         <div className="flex flex-col justify-center p-6 w-1/2">
           <h3 className="text-3xl font-bold text-white mb-2">{title}</h3>
-          <p className="text-gray-400 text-lg mb-2">
-            Release Date: {new Date(releaseDate).toLocaleDateString()}
-          </p>
+          <div className="text-gray-400 text-lg mb-2">
+            {new Date(releaseDate) > new Date() ? (
+              <span className="font-bold text-blue-500">
+                🚀 Coming Soon: Mark your calendar!
+              </span>
+            ) : (
+              <span>
+                📅 Release Date: {new Date(releaseDate).toLocaleDateString()}
+              </span>
+            )}
+          </div>
           <p className="text-gray-300 text-lg mb-2">{overview}</p>
           <p className={`font-bold text-2xl ${getRatingColor(vote_average)}`}>
             Rating: {vote_average.toFixed(1)}/10
@@ -50,19 +57,29 @@ const MovieDetailsModal = ({ movie, onClose }) => {
 const MovieCard = ({ movie, onClick }) => {
   if (!movie.poster_path) return null;
 
+  const title = movie.title || movie.name || movie.original_name;
+  const rating = movie.vote_average ? `${movie.vote_average.toFixed(1)}/10` : "N/A";
+
   return (
     <div
-      className={`flex relative transition-all duration-300 max-w-[400px] mb-4 cursor-pointer`}
+      className="relative flex transition-all duration-300 max-w-[400px] mb-4 cursor-pointer"
       onClick={onClick}
     >
       <img
-        className={`w-full h-[400px] object-cover transition-transform duration-300 rounded-lg`}
+        className="w-full h-[400px] object-cover transition-transform duration-300 rounded-lg"
         src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-        alt={movie.title || movie.name || movie.original_name}
+        alt={title}
       />
+      <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+        <h4 className="text-white text-xl font-bold">{title}</h4>
+        <p className={`text-white font-semibold ${getRatingColor(movie.vote_average)}`}>
+          Rating: {rating}
+        </p>
+      </div>
     </div>
   );
 };
+
 
 const SlidingComponent = ({ movies }) => {
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -75,8 +92,10 @@ const SlidingComponent = ({ movies }) => {
     setSelectedMovie(null);
   };
 
-  // Filter movies to only include those with a poster
+
   const filteredMovies = movies.filter(movie => movie.poster_path);
+
+  const displayMovies = filteredMovies.length > 0 ? filteredMovies : [referenceMovieData];
 
   return (
     <>
@@ -97,7 +116,7 @@ const SlidingComponent = ({ movies }) => {
         }}
         style={{ display: 'flex', justifyContent: 'flex-end' }}
       >
-        {filteredMovies.map((movie) => (
+        {displayMovies.map((movie) => (
           <SwiperSlide key={movie.id} style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <MovieCard
               movie={movie}

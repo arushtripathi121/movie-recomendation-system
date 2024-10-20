@@ -40,6 +40,7 @@ const HomePage = () => {
     const fetchUpcommingMovies = async () => {
         const movies = await getMovies('https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1');
         setUpcommingMovies(movies);
+        console.log(upcommingMovies);
     };
 
     const handleSearch = async () => {
