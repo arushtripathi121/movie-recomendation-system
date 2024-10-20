@@ -62,32 +62,33 @@ const HomePage = () => {
     }, [navigate]);
 
     return (
-        <div className='min-h-screen bg-gradient-to-r from-gray-800 via-gray-900 to-black'>
-            <PostHeader userEmail={user} />
-
-            <div className='flex flex-col items-start px-3 gap-5'>
-                <h2 className="text-3xl font-bold text-center text-white">Top Rated Movies</h2>
-                {topRatedMovies.length !== 0 && (
-                    <div className="w-full">
-                        <SlidingComponent movies={topRatedMovies} />
-                    </div>
-                )}
-
-                <h2 className="text-3xl font-bold text-center text-white">Recommended Movies</h2>
-                {recomendedMovies.length !== 0 && (
-                    <div className="w-full">
-                        <SlidingComponent movies={recomendedMovies} />
-                    </div>
-                )}
-
-                <h2 className="text-3xl font-bold text-center text-white">Upcoming Movies</h2>
-                {upcommingMovies.length !== 0 && (
-                    <div className="w-full">
-                        <SlidingComponent movies={upcommingMovies} />
-                    </div>
-                )}
-            </div>
+        <div className='min-h-screen bg-gray-900'>
+        <PostHeader userEmail={user} />
+    
+        <div className='flex flex-col items-center px-3 gap-10 py-5'>
+            <h2 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-red-600">Top Rated Movies</h2>
+            {topRatedMovies.length !== 0 && (
+                <div className="w-full">
+                    <SlidingComponent movies={topRatedMovies} />
+                </div>
+            )}
+    
+            <h2 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-600">Recommended Movies</h2>
+            {recomendedMovies.length !== 0 && (
+                <div className="w-full">
+                    <SlidingComponent movies={recomendedMovies} />
+                </div>
+            )}
+    
+            <h2 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Upcoming Movies</h2>
+            {upcommingMovies.length !== 0 && (
+                <div className="w-full">
+                    <SlidingComponent movies={upcommingMovies} />
+                </div>
+            )}
         </div>
+    </div>
+    
 
     );
 };
