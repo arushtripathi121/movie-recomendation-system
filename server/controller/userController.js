@@ -13,10 +13,16 @@ exports.signIn = async (req, res) => {
 
         const user = await User.findOne({ email });
 
-        if (!user) {
+        let checkPassword = false;
+
+        if(user.password == password) {
+            checkPassword = true;
+        }
+
+        if (!user || !checkPassword ) {
             return res.status(404).json({
                 success: false,
-                errorMessage: 'User not found.'
+                errorMessage: 'email or password is incorrect.'
             });
         }
 
