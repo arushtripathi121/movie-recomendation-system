@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 const PreHeader = ({ hideButtons }) => {
@@ -13,6 +13,13 @@ const PreHeader = ({ hideButtons }) => {
         navigate('/signup')
     }
 
+    useEffect(() => {
+        const item = localStorage.getItem('userEmail');
+
+        if (item) {
+            navigate('/home')
+        }
+    }, [])
     return (
         <div className="flex items-center justify-between px-10 py-5">
 
