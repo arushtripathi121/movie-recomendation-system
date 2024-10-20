@@ -4,6 +4,7 @@ import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import { useNavigate } from 'react-router-dom';
 
 const getRatingColor = (rating) => {
   if (rating >= 7) return 'text-green-500';
@@ -16,7 +17,12 @@ const MovieDetailsModal = ({ movie, onClose }) => {
 
   const title = movie.title || movie.name || movie.original_name;
   const releaseDate = movie.release_date || movie.first_air_date;
-  const { overview, vote_average, poster_path } = movie;
+  const { overview, vote_average, poster_path, id } = movie;
+  const navigate = useNavigate();
+
+  const handleShowReviews = () => {
+    navigate(`/reviews/${id}`);
+  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-30">
@@ -48,6 +54,12 @@ const MovieDetailsModal = ({ movie, onClose }) => {
           <p className={`font-bold text-2xl ${getRatingColor(vote_average)}`}>
             Rating: {vote_average.toFixed(1)}/10
           </p>
+          <button
+            onClick={handleShowReviews}
+            className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
+          >
+            Show Reviews
+          </button>
         </div>
       </div>
     </div>
@@ -80,7 +92,6 @@ const MovieCard = ({ movie, onClick }) => {
   );
 };
 
-
 const SlidingComponent = ({ movies }) => {
   const [selectedMovie, setSelectedMovie] = useState(null);
 
@@ -92,10 +103,8 @@ const SlidingComponent = ({ movies }) => {
     setSelectedMovie(null);
   };
 
-
   const filteredMovies = movies.filter(movie => movie.poster_path);
-
-  const displayMovies = filteredMovies.length > 0 ? filteredMovies : [referenceMovieData];
+  const displayMovies = filteredMovies.length > 0 ? filteredMovies : [/* referenceMovieData */];
 
   return (
     <>

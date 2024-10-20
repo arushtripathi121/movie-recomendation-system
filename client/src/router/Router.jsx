@@ -4,6 +4,7 @@ import SignInPage from '../pages/SignInPage';
 import LandingPage from '../pages/LandingPage';
 import SignUpPage from '../pages/SignUpPage';
 import HomePage from '../pages/HomePage';
+import ReviewsPage from '../pages/ReviewsPage';
 
 const Router = () => {
 
@@ -23,6 +24,10 @@ const Router = () => {
         {
           path: '/home',
           element: <HomePage/>
+        },
+        {
+          path: '/reviews/:movieId',
+          element: <ReviewsPage/>
         }
     ])
 
