@@ -30,7 +30,7 @@ const SignInPage = () => {
     }
 
     if (data.data) {
-      localStorage.setItem('userEmail', data.email);
+      localStorage.setItem('userEmail', data.data.email);
       navigate('/home');
     }
   }
