@@ -6,9 +6,9 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 const getRatingColor = (rating) => {
-  if (rating >= 7) return 'text-green-500';  // Green for ratings 7 and above
-  if (rating >= 4) return 'text-yellow-500'; // Yellow for ratings 4 to 6.9
-  return 'text-red-500';                       // Red for ratings below 4
+  if (rating >= 7) return 'text-green-500';
+  if (rating >= 4) return 'text-yellow-500';
+  return 'text-red-500';
 };
 
 const MovieDetailsModal = ({ movie, onClose }) => {
@@ -18,26 +18,26 @@ const MovieDetailsModal = ({ movie, onClose }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-30">
-      <div className="bg-gray-800 rounded-lg w-3/4 md:w-1/2 relative overflow-hidden flex">
+      <div className="bg-gray-800 rounded-lg w-11/12 md:w-3/4 lg:w-1/2 relative overflow-hidden flex">
         <button onClick={onClose} className="absolute top-2 right-2 text-white text-lg">
           &times;
         </button>
-        <div className="flex flex-col justify-center p-6 w-1/2">
-          <h3 className="text-2xl font-bold text-white mb-2">{title}</h3>
-          <p className="text-gray-400 text-sm mb-2">
-            Release Date: {new Date(release_date).toLocaleDateString()}
-          </p>
-          <p className="text-gray-300 text-sm mb-2">{overview}</p>
-          <p className={`font-bold text-lg ${getRatingColor(vote_average)}`}>
-            Rating: {vote_average.toFixed(1)}/10
-          </p>
-        </div>
-        <div className="w-1/2 h-full">
+        <div className="w-1/2 h-full p-4">
           <img
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover rounded-lg"
             src={`https://image.tmdb.org/t/p/w500${poster_path}`}
             alt={title}
           />
+        </div>
+        <div className="flex flex-col justify-center p-6 w-1/2">
+          <h3 className="text-3xl font-bold text-white mb-2">{title}</h3>
+          <p className="text-gray-400 text-lg mb-2">
+            Release Date: {new Date(release_date).toLocaleDateString()}
+          </p>
+          <p className="text-gray-300 text-lg mb-2">{overview}</p>
+          <p className={`font-bold text-2xl ${getRatingColor(vote_average)}`}>
+            Rating: {vote_average.toFixed(1)}/10
+          </p>
         </div>
       </div>
     </div>
@@ -79,15 +79,13 @@ const SlidingComponent = ({ movies }) => {
         navigation
         pagination={{ clickable: true }}
         breakpoints={{
-          640: {
-            slidesPerView: 2,
-          },
-          768: {
-            slidesPerView: 4,
-          },
-          1024: {
-            slidesPerView: 6,
-          },
+          320: { slidesPerView: 1 },
+          480: { slidesPerView: 1 },
+          640: { slidesPerView: 2 },
+          768: { slidesPerView: 3 },
+          1024: { slidesPerView: 4 },
+          1280: { slidesPerView: 5 },
+          1536: { slidesPerView: 6 },
         }}
         style={{ display: 'flex', justifyContent: 'flex-end' }}
       >
@@ -100,7 +98,7 @@ const SlidingComponent = ({ movies }) => {
           </SwiperSlide>
         ))}
       </Swiper>
-      
+
       {selectedMovie && (
         <MovieDetailsModal movie={selectedMovie} onClose={handleCloseModal} />
       )}
