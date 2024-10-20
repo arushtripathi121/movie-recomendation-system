@@ -45,6 +45,8 @@ const MovieDetailsModal = ({ movie, onClose }) => {
 };
 
 const MovieCard = ({ movie, onClick }) => {
+  if (!movie.poster_path) return null;
+
   return (
     <div
       className={`flex relative transition-all duration-300 max-w-[400px] mb-4 cursor-pointer`}
@@ -60,6 +62,8 @@ const MovieCard = ({ movie, onClick }) => {
 };
 
 const SlidingComponent = ({ movies }) => {
+  console.log(movies);
+  
   const [selectedMovie, setSelectedMovie] = useState(null);
 
   const handleCardClick = (movie) => {
