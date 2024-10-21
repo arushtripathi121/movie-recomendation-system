@@ -46,7 +46,7 @@ const HomePage = () => {
     const handleSearch = async () => {
         setLoading(true);
         setSearchResults([]);
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        await new Promise(resolve => setTimeout(resolve, 1000));
         const movies = await getMovies(`https://api.themoviedb.org/3/search/multi?query=${search}&include_adult=false&language=en-US&page=1`);
         setSearchResults(movies);
         setLoading(false);
