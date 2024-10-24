@@ -37,7 +37,7 @@ const PreHeader = ({ hideButtons }) => {
             </div>
             {hideButtons == false &&
                 <div className="flex items-center gap-6 font-semibold">
-                    <p className="text-gray-700 text-xl cursor-pointer hover:text-gray-500 transition duration-300" onClick={handleSignIn}>Login</p>
+                    <p className="text-gray-300 text-xl cursor-pointer hover:text-white transition duration-300" onClick={handleSignIn}>Login</p>
                     <p className="bg-yellow-500 text-white px-4 py-2 rounded-md text-xl cursor-pointer hover:bg-yellow-600 transition duration-300" onClick={handleSignUp}>
                         Sign Up
                     </p>

@@ -11,9 +11,9 @@ const SignUpPage = () => {
     const [errorMessage, setErrorMessage] = useState('');
 
     const navigate = useNavigate();
-    
+
     const validatePassword = () => {
-        if(confirmPassword === password) {
+        if (confirmPassword === password) {
             return true;
         }
 
@@ -26,44 +26,43 @@ const SignUpPage = () => {
 
         const checkValidatePassword = validatePassword();
 
-        if(checkValidatePassword) {
+        if (checkValidatePassword) {
             const res = await fetch(api + 'signup', {
                 method: 'POST',
                 headers: {
-                  "Content-Type": "application/json",
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify({ email, password })
-              })
-          
-              const data = await res.json();
-          
-              console.log(data);
-          
-              if (data.errorMessage) {
+            })
+
+            const data = await res.json();
+
+            console.log(data);
+
+            if (data.errorMessage) {
                 setErrorMessage(data.errorMessage);
-              }
-          
-              if (data.data) {
+            }
+
+            if (data.data) {
                 localStorage.setItem('userEmail', data.data.email);
                 navigate('/home');
-              }
+            }
         }
     }
     return (
-        <div class="min-h-screen bg-gradient-to-r from-indigo-100 to-purple-200 flex flex-col items-center justify-center py-10">
-
+        <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center py-10">
             <Link to={'/'}>
                 <PreHeader hideButtons={true} />
             </Link>
 
-            <div class="w-full max-w-md bg-white rounded-xl shadow-2xl p-10">
-                <h2 class="text-4xl font-bold text-center text-gray-800 mb-8">Join Us!</h2>
+            <div className="w-full max-w-md bg-gray-800 rounded-xl shadow-2xl p-10">
+                <h2 className="text-4xl font-bold text-center text-white mb-8">Join Us!</h2>
 
-                <form onSubmit={handleSignUp} class="flex flex-col space-y-6">
+                <form onSubmit={handleSignUp} className="flex flex-col space-y-6">
                     <input
                         type="email"
                         placeholder="Email"
-                        class="w-full px-4 py-4 bg-gray-50 border border-gray-300 rounded-full shadow focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
+                        className="w-full px-4 py-4 bg-gray-700 border border-gray-600 text-white rounded-full shadow focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
                     />
@@ -71,7 +70,7 @@ const SignUpPage = () => {
                     <input
                         type="password"
                         placeholder="Password"
-                        class="w-full px-4 py-4 bg-gray-50 border border-gray-300 rounded-full shadow focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
+                        className="w-full px-4 py-4 bg-gray-700 border border-gray-600 text-white rounded-full shadow focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
                         value={password}
                         onChange={e => setPassword(e.target.value)}
                     />
@@ -79,28 +78,26 @@ const SignUpPage = () => {
                     <input
                         type="password"
                         placeholder="Confirm Password"
-                        class="w-full px-4 py-4 bg-gray-50 border border-gray-300 rounded-full shadow focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
+                        className="w-full px-4 py-4 bg-gray-700 border border-gray-600 text-white rounded-full shadow focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
                         value={confirmPassword}
                         onChange={e => setComfirmPassword(e.target.value)}
                     />
 
                     <button
-                        class="w-full bg-gradient-to-r from-blue-500 to-teal-500 text-white py-3 rounded-full shadow-lg font-semibold hover:shadow-xl transform hover:scale-105 transition duration-300"
+                        className="w-full bg-gradient-to-r from-blue-600 to-teal-600 text-white py-3 rounded-full shadow-lg font-semibold hover:shadow-xl transform hover:scale-105 transition duration-300"
                     >
                         Sign Up
                     </button>
                 </form>
 
-                <p className='flex flex-col pt-2 items-center text-red-500 text-lg font-semibold'>{errorMessage && errorMessage}</p>
+                <p className="flex flex-col pt-2 items-center text-red-500 text-lg font-semibold">{errorMessage && errorMessage}</p>
 
-                <p class="text-center text-gray-600 mt-4">
+                <p className="text-center text-gray-400 mt-4">
                     Already have an account?
-                    <Link to="/signin" class="text-blue-500 font-semibold"> Log in</Link>
+                    <Link to="/signin" className="text-blue-500 font-semibold"> Log in</Link>
                 </p>
             </div>
         </div>
-
-
     )
 }
 
